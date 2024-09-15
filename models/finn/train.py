@@ -12,16 +12,20 @@ import time
 from threading import Thread
 import sys
 
-sys.path.append("..")
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.configuration import Configuration
 import utils.helper_functions as helpers
-from finn import *
-
+from finn import FINN_Burger, FINN_DiffSorp, FINN_DiffReact, FINN_AllenCahn, FINN_Burger2D
 
 def run_training(print_progress=True, model_number=None):
+    # Get the directory of the current script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Construct the path to config.json
+    config_path = os.path.join(current_dir, "config.json")
 
     # Load the user configurations
-    config = Configuration("config.json")
+    config = Configuration(config_path)
     
     # Append the model number to the name of the model
     if model_number is None:
@@ -37,8 +41,11 @@ def run_training(print_progress=True, model_number=None):
         os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
         
-    root_path = os.path.abspath("../../data")
-    data_path = os.path.join(root_path, config.data.type, config.data.name)
+    # Use explicit paths
+    finn_dir = "/Users/aditya/Code/finn"
+    root_path = os.path.join(finn_dir, "data")
+    data_path = os.path.join(root_path, config.data.type, "data_train")
+
     
     # Set device on GPU if specified in the configuration file, else CPU
     # device = helpers.determine_device()

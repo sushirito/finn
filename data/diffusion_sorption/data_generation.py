@@ -190,13 +190,13 @@ def draw_indices(simulator, n_init, n_bound, n_colloc):
 
     rng = np.random.default_rng()
 
-    idcs_init = np.zeros((n_init, 2), dtype=np.int)
+    idcs_init = np.zeros((n_init, 2), dtype=np.int64)
     idcs_init[:, 0] = 0
     idcs_init[:, 1] = rng.choice(len(simulator.x),
                                  size=n_init,
                                  replace=False)
 
-    idcs_bound = np.zeros((n_bound, 2), dtype=np.int)
+    idcs_bound = np.zeros((n_bound, 2), dtype=np.int64)
     idcs_bound[:n_bound//2, 0] = rng.choice(len(simulator.t)//4 + 1,
                                   size=n_bound//2,
                                   replace=False)
@@ -403,7 +403,7 @@ def main():
     """
 
     # Determine the root path for this script and set up a path for the data
-    root_path = os.path.abspath("")
+    root_path = os.path.abspath("./data/diffusion_sorption")
 
     # Create a wave generator using the parameters from the configuration file
     simulator = Simulator(
